@@ -20,9 +20,13 @@ class KeywordEnhancer {
         return static::format($inputText);
     }
 
-    private static function format(string $inputText): string {
+    public static function enhanceCommit(string $commitSubject, string $shortHash): string {
+        return static::format($commitSubject, $shortHash);
+    }
+
+    private static function format(string $inputText, ?string $shortHash = null): string {
         $inputText = static::linkToBug($inputText);
-        $inputText = static::linkToGitHub($inputText);
+        $inputText = static::linkToGitHub($inputText, $shortHash);
         $inputText = static::codifyText($inputText);
         $inputText = static::linkToSecurityAnnouncements($inputText);
 
@@ -37,7 +41,7 @@ class KeywordEnhancer {
         return $subject;
     }
 
-    private static function linkToGitHub(string $subject): string {
+    private static function linkToGitHub(string $subject, ?string $shortHash = null): string {
         $subject = preg_replace('/\bGH-(\d{3,6})\b/', "[GH-$1](https://github.com/php/php-src/issues/$1)", $subject);
         $subject = preg_replace(
             '/\b(([a-fA-F\d]){8})([a-fA-F\d]){4,32}\b/',
@@ -52,6 +56,10 @@ class KeywordEnhancer {
         if (preg_match('/Closes GH-(\d{3,6})\D?/', $subject, $matches)) {
             $subject .= sprintf(" in [GH-%d](https://github.com/php/php-src/pull/%d)", $matches[1], $matches[1]);
             return $subject;
+        }
+
+        if ($shortHash) {
+            return $subject . sprintf(' in [%s](https://github.com/php/php-src/commit/%s)', $shortHash, $shortHash);
         }
 
         return $subject;
