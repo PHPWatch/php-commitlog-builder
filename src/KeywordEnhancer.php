@@ -5,15 +5,17 @@ namespace PHPWatch\PHPCommitBuilder;
 class KeywordEnhancer {
     protected const CODIFY_PATTERNS = [
         '/\b(?<!`)(?:zend|php)_[a-z_]+\(\)(?!`)/i', // zend_foo_bar()
-        '/\b(?<!`)(?:zend|php)_[a-z_*]+\b(?![`.(])\*?/i', // zend_foo_bar()
+        '/\b(?<!`)(?:zend|php|_php)_[a-z_*]+\b(?![`.(=])\*?/i', // zend_foo_bar
         '/\b(?<![`\/])[a-z][a-z\d_-]+(.stubs?)?\.(phpt?|c|h)(?![`.?])/', // run-tests.php / foo.stub.php foo.stubs.php / test-foo-bar.phpt,
         '/\b(?<!`)ext\/[a-z_]+\b(?![`\/])/', // ext-names
-        '/\b(?<!`)[A-Z][A-Za-z]+::[a-z][A-Za-z_]+\(\)(?![`\/])/', // Class::methods()
-        '/\b(?<!`)[A-Z][A-Za-z]+::[A-Z_]+\b(?![`\/])/', // Class::CONSTANTS
-        '/\b(?<!`)[A-Z][A-Za-z]+::[a-z][A-Za-z_\d]+\b(?![`\/])/', // Class::constants
-        '/\b(?<!`)[a-z]+_[a-z]+(?:_[a-z_]+)?\(\)(?![`\/])/', // Functions with underscores and ()
-        '/\b(?<!`)(?:ldap|ftp|array|mb|stream|open|hash)_[a-z_]+\d?\b(?![`\/])/', // Functions with underscores and no ()
-        '/\b(?<!`)xleak\b(?![`\/])/i', // xleak
+        '/\b(?<!`)[A-Z][A-Za-z]+::[a-z][A-Za-z\d_]+\(\)(?![`\/-])/', // Class::methods()
+        '/\b(?<!`)[A-Z][A-Za-z]+::[A-Z_]+\b(?![`\/(])/', // Class::CONSTANTS
+        '/\b(?<!`)[A-Z][A-Za-z]+::[a-z][A-Za-z_\d]+\b(?![`\/(])/', // Class::constants
+        '/\b(?<!`-)[a-z]+_[a-z]+(?:_[a-z_]+)?\(\)(?![`\/])/', // Functions with underscores and ()
+        '/\b(?<![`>])[a-z_][a-z][a-z\d_]+\(\)(?![`.>\/-])/', // Functions with underscores and ()
+        '/\b(?<!`)(?:ldap|ftp|array|mb|stream|open|hash|xml)_[a-z_]+\d?\b(?![`\/])/', // Functions with underscores and no ()
+        '/\b(?<!`)(xleak|xfail|skipif)\b(?![`\/])/i', // xleak
+        '/(?<![`>()-])--[a-z][a-z-]+(?![`])/i', // --flags, --flags-and-more
     ];
 
     public static function enhance(string $inputText): string {

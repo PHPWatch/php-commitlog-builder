@@ -6,10 +6,13 @@ class CommitFormatter {
     private array $commitsList = [];
 
     private array $commitsGroupedByAuthor = [];
+
+    private array $nameReplacements = [];
     private const EOL = "\r\n";
 
-    public function __construct(array $inputCommits) {
+    public function __construct(array $inputCommits, array $nameReplacements = []) {
         $this->process($inputCommits);
+        $this->nameReplacements = $nameReplacements;
     }
 
     private function process(array $inputCommits): void {
@@ -35,7 +38,15 @@ class CommitFormatter {
         }
 
         $this->commitsList = $formattedCommits;
-        ksort($this->commitsGroupedByAuthor);
+
+        foreach ($this->nameReplacements as $originalName => $newName) {
+            if (isset($this->commitsGroupedByAuthor[$originalName])) {
+                $this->commitsGroupedByAuthor[$newName] = $this->commitsGroupedByAuthor[$originalName];
+                unset($this->commitsGroupedByAuthor[$originalName]);
+            }
+        }
+
+        ksort($this->commitsGroupedByAuthor, SORT_NATURAL | SORT_FLAG_CASE);
     }
 
     private function splitCommit(\stdClass $commit): array {
@@ -88,7 +99,7 @@ class CommitFormatter {
     public function getFormattedCommitListMarkup(): string {
         $output = '';
         foreach ($this->getFormattedCommitList() as $commit) {
-            $output .= $this->getFormattedCommitListMarkup($commit['formatted'] . ' by ' . $commit['author']);
+            $output .= self::markdownListItem($commit['formatted'] . ' by ' . ($this->nameReplacements[$commit['author']] ?? $commit['author']));
         }
 
         return $output;
@@ -114,6 +125,8 @@ class CommitFormatter {
             foreach ($commitList as $commit) {
                 $output .= self::markdownListItem($commit['formatted']);
             }
+
+            $output .= self::EOL . self::EOL;
         }
 
         return $output;
