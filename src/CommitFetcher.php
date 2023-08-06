@@ -49,4 +49,36 @@ class CommitFetcher {
 
         return $return;
     }
+
+    public function getCommitListBetweenTags(string $startTag, string $untilTag): array {
+        $params = [
+            'page' => 1,
+        ];
+
+        $baseUrl = static::API_ENDPOINT_COMPARE;
+        $baseUrl .= $startTag . '...' . $untilTag;
+
+        $return = [];
+        $hardLimits = 50;
+
+        do {
+            $paramsUrl = http_build_query($params);
+            $url = $baseUrl . '?' .$paramsUrl;
+
+            $headers = [];
+            if ($this->apiKey) {
+                $headers[] = 'Authorization: Bearer '. $this->apiKey;
+            }
+
+            $data = $this->curlFetcher->getJson($url, $headers);
+            /** @noinspection SlowArrayOperationsInLoopInspection */
+            $return = array_merge($return, $data->commits);
+
+            $params['page']++;
+            $hardLimits--;
+
+        } while (count($data->commits) >= 250 && $hardLimits > 0);
+
+        return $return;
+    }
 }
