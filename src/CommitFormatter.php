@@ -81,7 +81,11 @@ class CommitFormatter {
             return true;
         }
 
-        if (str_contains($commitMessage, 'is now for PHP 8') || str_contains($commitMessage, 'is now for PHP-8')) {
+        if (
+            str_contains($commitMessage, 'is now for PHP 8')
+            || str_contains($commitMessage, 'is now for PHP-8')
+            || str_contains($commitMessage, 'PHP-8.0 is now for 8')
+        ) {
             return true;
         }
 
