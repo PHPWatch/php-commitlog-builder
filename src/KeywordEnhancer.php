@@ -13,9 +13,10 @@ class KeywordEnhancer {
         '/\b(?<!`)[A-Z][A-Za-z]+::[a-z][A-Za-z_\d]+\b(?![`\/(])/', // Class::constants
         '/\b(?<!`-)[a-z]+_[a-z]+(?:_[a-z_]+)?\(\)(?![`\/])/', // Functions with underscores and ()
         '/\b(?<![`>])[a-z_][a-z][a-z\d_]+\(\)(?![`.>\/-])/', // Functions with underscores and ()
-        '/\b(?<!`)(?:ldap|ftp|array|mb|stream|open|hash|xml)_[a-z_]+\d?\b(?![`\/])/', // Functions with underscores and no ()
+        '/\b(?<!`)(?:ldap|ftp|array|mb|stream|open|hash|xml|proc)_[a-z_]+\d?\b(?![`\/])/', // Functions with underscores and no ()
         '/\b(?<!`)(xleak|xfail|skipif)\b(?![`\/])/i', // xleak
         '/(?<![`>()-])--[a-z][a-z-]+(?![`])/i', // --flags, --flags-and-more
+        '/(?<![`>()-])\bext\/[a-z_\d\/-]+\.phpt\b(?![`])/i', // ext/test/test/test.phpt
     ];
 
     public static function enhance(string $inputText): string {
@@ -44,14 +45,18 @@ class KeywordEnhancer {
     }
 
     private static function linkToGitHub(string $subject, ?string $shortHash = null): string {
-        $subject = preg_replace('/\bGH-(\d{3,6})\b/', "[GH-$1](https://github.com/php/php-src/issues/$1)", $subject);
+        $subject = preg_replace('/\b(?<!\[)GH-(\d{3,6})\b/', "[GH-$1](https://github.com/php/php-src/issues/$1)", $subject);
+
+        $subject = preg_replace('/\b(?<!\[)GH-(\d{3,6})\b/', "[GH-$1](https://github.com/php/php-src/issues/$1)", $subject);
+        $subject = preg_replace('/(?<![`>()\b\d\S\[-])#([1-3]\d\d\d\d)\b(?![`-])/', "[GH-$1](https://github.com/php/php-src/issues/$1)", $subject);
+
         $subject = preg_replace(
-            '/\b(([a-fA-F\d]){8})([a-fA-F\d]){4,32}\b/',
+            '/\b(?<!\[)(([a-fA-F\d]){8})([a-fA-F\d]){4,32}\b/',
             "[$1](https://github.com/php/php-src/commit/$0)",
             $subject
         );
 
-        if (preg_match('/\(#(\d{3,6})\)$/', $subject)) {
+        if (preg_match('/(?<!\[)\(#(\d{3,6})\)$/', $subject)) {
             return preg_replace('/\(#(\d{3,6})\)$/', "in [GH-$1](https://github.com/php/php-src/pull/$1)", $subject);
         }
 
