@@ -1,0 +1,27 @@
+{
+    "name": "phpwatch/php-keyword-enhancer",
+    "type": "library",
+    "require": {
+        "php": "^8.2"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^10.3"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "PHPWatch\\PhpKeywordEnhancer\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "PHPWatch\\PhpKeywordEnhancer\\Tests\\": "tests/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Ayesh Karunaratne",
+            "email": "ayesh@aye.sh"
+        }
+    ]
+}
