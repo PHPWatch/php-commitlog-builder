@@ -1,5 +1,5 @@
 {
-    "name": "phpwatch/php-keyword-enhancer",
+    "name": "phpwatch/php-commitlog-builder",
     "type": "library",
     "require": {
         "php": "^8.2"
@@ -10,12 +10,12 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "PHPWatch\\PhpKeywordEnhancer\\": "src/"
+            "PHPWatch\\PHPCommitBuilder\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "PHPWatch\\PhpKeywordEnhancer\\Tests\\": "tests/"
+            "PHPWatch\\PHPCommitBuilder\\Tests\\": "tests/"
         }
     },
     "authors": [

@@ -1,8 +1,8 @@
 <?php
 
-namespace PHPWatch\PhpKeywordEnhancer\Tests;
+namespace PHPWatch\PHPCommitBuilder\Tests;
 
-use PHPWatch\PhpKeywordEnhancer\KeywordEnhancer;
+use PHPWatch\PHPCommitBuilder\KeywordEnhancer;
 use PHPUnit\Framework\TestCase;
 
 class KeywordEnhancerTest extends TestCase {

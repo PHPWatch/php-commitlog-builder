@@ -1,6 +1,6 @@
 <?php
 
-namespace PHPWatch\PhpKeywordEnhancer;
+namespace PHPWatch\PHPCommitBuilder;
 
 class KeywordEnhancer {
     protected const CODIFY_PATTERNS = [
