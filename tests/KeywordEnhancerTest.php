@@ -38,8 +38,12 @@ class KeywordEnhancerTest extends TestCase {
                 'Fixed bug #5943: OOB read due to',
             ],
             [
+                'Fixed bug [GH-11453](https://github.com/php/php-src/issues/11453): OOB read due to',
+                'Fixed bug [GH-11453](https://github.com/php/php-src/issues/11453): OOB read due to',
+            ],
+            [
                 'Fixed bug #11453: OOB read due to',
-                'Fixed bug #11453: OOB read due to',
+                'Fixed bug [GH-11453](https://github.com/php/php-src/issues/11453): OOB read due to',
             ],
             [
                 'Fixed bug #123456: OOB read due to',
@@ -74,7 +78,7 @@ class KeywordEnhancerTest extends TestCase {
     }
 
     /**
-     * @covers \PHPWatch\PhpKeywordEnhancer\KeywordEnhancer::enhance
+     * @covers \PHPWatch\PHPCommitBuilder\KeywordEnhancer::enhance
      */
     public function testReturnsVerbatimOnEmptyStrings(): void {
         self::assertSame('', KeywordEnhancer::enhance(''));
@@ -83,7 +87,8 @@ class KeywordEnhancerTest extends TestCase {
     }
 
     /**
-     * @covers       \PHPWatch\PhpKeywordEnhancer\KeywordEnhancer::linkToBug
+     * @covers       \PHPWatch\PHPCommitBuilder\KeywordEnhancer::linkToBug
+     * @covers \PHPWatch\PHPCommitBuilder\KeywordEnhancer::enhance
      * @dataProvider dataLinksToBugsPhp
      */
     public function testLinksToBugsPhp(string $input, string $expected): void {
@@ -91,7 +96,8 @@ class KeywordEnhancerTest extends TestCase {
     }
 
     /**
-     * @covers       \PHPWatch\PhpKeywordEnhancer\KeywordEnhancer::linkToGitHub
+     * @covers       \PHPWatch\PHPCommitBuilder\KeywordEnhancer::linkToGitHub
+     * @covers \PHPWatch\PHPCommitBuilder\KeywordEnhancer::enhance
      * @dataProvider dataLinkToGitHub
      */
     public function testLinkToGitHub(string $input, string $expected): void {
@@ -99,7 +105,8 @@ class KeywordEnhancerTest extends TestCase {
     }
 
     /**
-     * @covers       \PHPWatch\PhpKeywordEnhancer\KeywordEnhancer::linkToSecurityAnnouncements
+     * @covers       \PHPWatch\PHPCommitBuilder\KeywordEnhancer::linkToSecurityAnnouncements
+     * @covers \PHPWatch\PHPCommitBuilder\KeywordEnhancer::enhance
      * @dataProvider dataLinkToSecurityAnnouncements
      */
     public function testLinkToSecurityAnnouncements(string $input, string $expected): void {
@@ -107,7 +114,8 @@ class KeywordEnhancerTest extends TestCase {
     }
 
     /**
-     * @covers       \PHPWatch\PhpKeywordEnhancer\KeywordEnhancer::codifyText
+     * @covers       \PHPWatch\PHPCommitBuilder\KeywordEnhancer::codifyText
+     * @covers \PHPWatch\PHPCommitBuilder\KeywordEnhancer::enhance
      * @dataProvider dataCodifyText
      */
     public function testCodifyText(string $input, string $expected): void {
