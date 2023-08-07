@@ -4,25 +4,28 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "bf60936cda77db1871ca0d89655936db",
+    "content-hash": "0e6640fc688bceb335698916c7b54554",
     "packages": [
         {
             "name": "ayesh/curl-fetcher",
-            "version": "v1.0.3",
+            "version": "v1.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Ayesh/curl-fetcher.git",
-                "reference": "904f914819aa10355478b45dbcc991933baa0916"
+                "reference": "601faefb67a0be21d47f5a7a049ce13412d65357"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Ayesh/curl-fetcher/zipball/904f914819aa10355478b45dbcc991933baa0916",
-                "reference": "904f914819aa10355478b45dbcc991933baa0916",
+                "url": "https://api.github.com/repos/Ayesh/curl-fetcher/zipball/601faefb67a0be21d47f5a7a049ce13412d65357",
+                "reference": "601faefb67a0be21d47f5a7a049ce13412d65357",
                 "shasum": ""
             },
             "require": {
                 "ext-curl": "*",
                 "php": "^8.2"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^10.3.1"
             },
             "type": "library",
             "autoload": {
@@ -42,9 +45,9 @@
             ],
             "support": {
                 "issues": "https://github.com/Ayesh/curl-fetcher/issues",
-                "source": "https://github.com/Ayesh/curl-fetcher/tree/v1.0.3"
+                "source": "https://github.com/Ayesh/curl-fetcher/tree/v1.0.6"
             },
-            "time": "2023-08-06T16:20:30+00:00"
+            "time": "2023-08-07T05:11:04+00:00"
         }
     ],
     "packages-dev": [
