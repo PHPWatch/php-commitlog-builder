@@ -81,6 +81,14 @@ class KeywordEnhancer {
             );
         }
 
+        if (preg_match('/(GHSA-[a-z\d-]{14})(\W)/', $inputText)) {
+            $inputText = preg_replace(
+                '/(GHSA-[a-z\d-]{14})(\W)/',
+                "[$1](https://github.com/php/php-src/security/advisories/$1)$2",
+                $inputText
+            );
+        }
+
         return $inputText;
     }
 

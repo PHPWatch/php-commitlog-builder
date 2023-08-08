@@ -7,8 +7,9 @@ class CommitFormatter {
 
     private array $commitsGroupedByAuthor = [];
 
-    private array $nameReplacements = [];
-    private const EOL = "\r\n";
+    private array $nameReplacements;
+
+    use FormatterHelpers;
 
     public function __construct(array $inputCommits, array $nameReplacements = []) {
         $this->process($inputCommits);
@@ -134,17 +135,5 @@ class CommitFormatter {
         }
 
         return $output;
-    }
-
-    private static function markdownTitle(string $title): string {
-        return '### ' . self::plainText($title) . static::EOL;
-    }
-
-    private static function markdownListItem(string $listItem): string {
-        return ' - ' . self::plainText($listItem) . static::EOL;
-    }
-
-    private static function plainText(string $text): string {
-        return htmlspecialchars($text);
     }
 }
