@@ -1,8 +1,8 @@
 <?php
 
 namespace PHPWatch\PHPCommitBuilder;
-use Ayesh\CurlFetcher\CurlFetcher;
 
+use Ayesh\CurlFetcher\CurlFetcher;
 class CommitFetcher {
     private const API_ENDPOINT_COMPARE = 'https://api.github.com/repos/php/php-src/compare/';
     private const API_ENDPOINT_COMMIT_LIST = 'https://api.github.com/repos/php/php-src/commits';
@@ -31,11 +31,11 @@ class CommitFetcher {
 
         do {
             $paramsUrl = http_build_query($params);
-            $url = static::API_ENDPOINT_COMMIT_LIST . '?' .$paramsUrl;
+            $url = static::API_ENDPOINT_COMMIT_LIST . '?' . $paramsUrl;
 
             $headers = [];
             if ($this->apiKey) {
-                $headers[] = 'Authorization: Bearer '. $this->apiKey;
+                $headers[] = 'Authorization: Bearer ' . $this->apiKey;
             }
 
             $data = $this->curlFetcher->getJson($url, $headers);
@@ -44,7 +44,6 @@ class CommitFetcher {
 
             $params['page']++;
             $hardLimits--;
-
         } while (count($data) >= 100 && $hardLimits > 0);
 
         return $return;
@@ -63,11 +62,11 @@ class CommitFetcher {
 
         do {
             $paramsUrl = http_build_query($params);
-            $url = $baseUrl . '?' .$paramsUrl;
+            $url = $baseUrl . '?' . $paramsUrl;
 
             $headers = [];
             if ($this->apiKey) {
-                $headers[] = 'Authorization: Bearer '. $this->apiKey;
+                $headers[] = 'Authorization: Bearer ' . $this->apiKey;
             }
 
             $data = $this->curlFetcher->getJson($url, $headers);
@@ -76,7 +75,6 @@ class CommitFetcher {
 
             $params['page']++;
             $hardLimits--;
-
         } while (count($data->commits) >= 250 && $hardLimits > 0);
 
         return $return;

@@ -3,13 +3,12 @@
 namespace PHPWatch\PHPCommitBuilder;
 
 class CommitFormatter {
-    private array $commitsList = [];
 
+    use FormatterHelpers;
+    private array $commitsList = [];
     private array $commitsGroupedByAuthor = [];
 
     private array $nameReplacements;
-
-    use FormatterHelpers;
 
     public function __construct(array $inputCommits, array $nameReplacements = []) {
         $this->process($inputCommits);
@@ -26,7 +25,10 @@ class CommitFormatter {
                 continue;
             }
 
-            $commitArray['formatted'] = KeywordEnhancer::enhanceCommit($commitArray['subject'], substr($commitArray['hash'], 0, 10));
+            $commitArray['formatted'] = KeywordEnhancer::enhanceCommit(
+                $commitArray['subject'],
+                substr($commitArray['hash'], 0, 10)
+            );
             $formattedCommits[$i] = $commitArray;
 
             if (!isset($this->commitsGroupedByAuthor[$commitArray['author']])) {
@@ -58,7 +60,7 @@ class CommitFormatter {
             'subject' => trim(trim($commitMessageParts[0]), '.'),
             'author' => trim($commit->commit->author->name),
             'hash' => trim($commit->sha),
-            'message' => trim($commitMessage)
+            'message' => trim($commitMessage),
         ];
     }
 
@@ -104,7 +106,9 @@ class CommitFormatter {
     public function getFormattedCommitListMarkup(): string {
         $output = '';
         foreach ($this->getFormattedCommitList() as $commit) {
-            $output .= self::markdownListItem($commit['formatted'] . ' by ' . ($this->nameReplacements[$commit['author']] ?? $commit['author']));
+            $output .= self::markdownListItem(
+                $commit['formatted'] . ' by ' . ($this->nameReplacements[$commit['author']] ?? $commit['author'])
+            );
         }
 
         return $output;

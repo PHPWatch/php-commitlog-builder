@@ -1,6 +1,7 @@
 <?php
 
 namespace PHPWatch\PHPCommitBuilder;
+
 use Ayesh\CurlFetcher\CurlFetcher;
 
 class NewsFetcher {
@@ -10,16 +11,16 @@ class NewsFetcher {
     private const REGEX_RELEASE_HEADER = '/^(?<date>(?<day>\d\d?|\?\?) (?<month>Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec|\?\?\?) (?<year>\?\?\?\?|20\d\d)), (PHP|php) (?<release_id>\d\.\d\.(?:\d\d?|0(?:alpha\d|beta\d|rc\d|RC\d)?))$/';
     private const REGEX_EXT_HEADER = '/^- ?(?<ext_name>[A-Za-z][A-Za-z _\/\d]+):? ?$/';
 
-	private const REGEX_CHANGE_RECORD_START = '/^  ? ?(\.|-) (?<change_record>.*)$/';
+    private const REGEX_CHANGE_RECORD_START = '/^  ? ?(\.|-) (?<change_record>.*)$/';
     private const REGEX_CHANGE_RECORD_CONTINUATION = '/^(    ?|\t)(?<change_record_cont>.*)$/';
 
     private ?string $apiKey = null;
     private CurlFetcher $curlFetcher;
 
-	private  const STATIC_REPLACEMENTS = [
-		'   (Anatol)' => '    (Anatol)',
-		'	(Kalle)' => '    (Kalle)',
-	];
+    private const STATIC_REPLACEMENTS = [
+        '   (Anatol)' => '    (Anatol)',
+        '	(Kalle)' => '    (Kalle)',
+    ];
 
     public function __construct(string $apiKey = null) {
         $this->apiKey = $apiKey;
@@ -27,17 +28,15 @@ class NewsFetcher {
     }
 
     public function fetchAllForVersion(int|string $version): array {
-
         if (is_string($version)) {
             if ($version !== 'master') {
                 throw new \InvalidArgumentException('String arguments must be "master"');
             }
-            $baseUrl =  strtr(static::RAW_CONTENT_URL, [
+            $baseUrl = strtr(static::RAW_CONTENT_URL, [
                 '%tag' => 'master',
             ]);
-        }
-        else {
-            preg_match('/^(?<major>^\d)0(?<minor>\d)\d\d?$/', (string) $version, $matches);
+        } else {
+            preg_match('/^(?<major>^\d)0(?<minor>\d)\d\d?$/', (string)$version, $matches);
 
             if (empty($matches)) {
                 throw new \InvalidArgumentException('Invalid $version: Must be in integer "XYYZZ" format');
@@ -50,7 +49,7 @@ class NewsFetcher {
 
         $headers = [];
         if ($this->apiKey) {
-            $headers[] = 'Authorization: Bearer '. $this->apiKey;
+            $headers[] = 'Authorization: Bearer ' . $this->apiKey;
         }
 
         $contents = $this->curlFetcher->get($baseUrl, $headers);
@@ -68,12 +67,12 @@ class NewsFetcher {
         $lastLine = null;
 
         foreach ($contents as $lineNo => $line) {
-            $lineNo = (int) $lineNo;
+            $lineNo = (int)$lineNo;
             ++$lineNo; // Line numbers start from 1, although the array index starts at 0
 
-			if (isset(self::STATIC_REPLACEMENTS[$line])) {
-				$line = self::STATIC_REPLACEMENTS[$line];
-			}
+            if (isset(self::STATIC_REPLACEMENTS[$line])) {
+                $line = self::STATIC_REPLACEMENTS[$line];
+            }
 
             // Should skip line?
             if ($this->skipLine($line, $lineNo)) {
@@ -95,7 +94,9 @@ class NewsFetcher {
             }
 
             if (empty($cursorVersion)) {
-                throw new \RuntimeException('Cursor version should not be empty when detecting a new extension change set');
+                throw new \RuntimeException(
+                    'Cursor version should not be empty when detecting a new extension change set'
+                );
             }
 
             // Is this a new ext changeset header?
@@ -117,7 +118,13 @@ class NewsFetcher {
             }
 
             if ($lastLine === null) {
-                throw new \RuntimeException(\sprintf("Cursor last line number should not be empty when detecting a continuation of a change record on line %d:\r\n%s", $lineNo, $line));
+                throw new \RuntimeException(
+                    \sprintf(
+                        "Cursor last line number should not be empty when detecting a continuation of a change record on line %d:\r\n%s",
+                        $lineNo,
+                        $line
+                    )
+                );
             }
 
             // is this continuation of a line?
@@ -156,7 +163,10 @@ class NewsFetcher {
         if (preg_match(self::REGEX_RELEASE_HEADER, $line, $matches)) {
             return [
                 'version' => $matches['release_id'],
-                'date' => str_contains($matches['date'], '?') ? null : "{$matches['year']} {$matches['month']} {$matches['day']}",
+                'date' => str_contains(
+                    $matches['date'],
+                    '?'
+                ) ? null : "{$matches['year']} {$matches['month']} {$matches['day']}",
                 'changes' => [],
             ];
         }
