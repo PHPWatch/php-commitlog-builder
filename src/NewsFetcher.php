@@ -7,14 +7,19 @@ class NewsFetcher {
     private const RAW_CONTENT_URL = 'https://raw.githubusercontent.com/php/php-src/%tag/NEWS';
 
     private const REGEX_PIPE_HEADER = '/^\|+$/';
-    private const REGEX_RELEASE_HEADER = '/^(?<date>(?<day>\d\d|\?\?) (?<month>Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec|\?\?\?) (?<year>\?\?\?\?|20\d\d)), PHP (?<release_id>\d\.\d\.(?:\d\d?|0(?:alpha\d|beta\d|rc\d|RC\d)?))$/';
-    private const REGEX_EXT_HEADER = '/^- (?<ext_name>[A-Za-z][A-Za-z _\/\d]+):?$/';
+    private const REGEX_RELEASE_HEADER = '/^(?<date>(?<day>\d\d?|\?\?) (?<month>Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec|\?\?\?) (?<year>\?\?\?\?|20\d\d)), (PHP|php) (?<release_id>\d\.\d\.(?:\d\d?|0(?:alpha\d|beta\d|rc\d|RC\d)?))$/';
+    private const REGEX_EXT_HEADER = '/^- ?(?<ext_name>[A-Za-z][A-Za-z _\/\d]+):? ?$/';
 
-    private const REGEX_CHANGE_RECORD_START = '/^  \. (?<change_record>.*)$/';
-    private const REGEX_CHANGE_RECORD_CONTINUATION = '/^    (?<change_record_cont>.*)$/';
+	private const REGEX_CHANGE_RECORD_START = '/^  ? ?(\.|-) (?<change_record>.*)$/';
+    private const REGEX_CHANGE_RECORD_CONTINUATION = '/^(    ?|\t)(?<change_record_cont>.*)$/';
 
     private ?string $apiKey = null;
     private CurlFetcher $curlFetcher;
+
+	private  const STATIC_REPLACEMENTS = [
+		'   (Anatol)' => '    (Anatol)',
+		'	(Kalle)' => '    (Kalle)',
+	];
 
     public function __construct(string $apiKey = null) {
         $this->apiKey = $apiKey;
@@ -66,6 +71,9 @@ class NewsFetcher {
             $lineNo = (int) $lineNo;
             ++$lineNo; // Line numbers start from 1, although the array index starts at 0
 
+			if (isset(self::STATIC_REPLACEMENTS[$line])) {
+				$line = self::STATIC_REPLACEMENTS[$line];
+			}
 
             // Should skip line?
             if ($this->skipLine($line, $lineNo)) {
@@ -109,7 +117,7 @@ class NewsFetcher {
             }
 
             if ($lastLine === null) {
-                throw new \RuntimeException('Cursor last line number should not be empty when detecting a continuation of a change record');
+                throw new \RuntimeException(\sprintf("Cursor last line number should not be empty when detecting a continuation of a change record on line %d:\r\n%s", $lineNo, $line));
             }
 
             // is this continuation of a line?

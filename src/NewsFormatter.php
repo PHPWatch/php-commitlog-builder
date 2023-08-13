@@ -11,7 +11,7 @@ class NewsFormatter {
 
     public function getNewsListForRelease(string $version): array {
         if (!isset($this->releases[$version])) {
-            return [];
+			return [];
         }
 
         if (!isset($this->releases[$version]['version'], $this->releases[$version]['changes'])) {
@@ -38,9 +38,9 @@ class NewsFormatter {
     public function getNewsListForReleaseMarkup(string $version): string {
         $release = $this->getNewsListForRelease($version);
 
-        if (empty($release)) {
-            return '';
-        }
+		if (empty($release)) {
+			return '';
+		}
 
         $output = '';
 
@@ -58,7 +58,7 @@ class NewsFormatter {
     }
 
     private function removeAuthorInBraces(string $change): string {
-        $change = preg_replace('/(^(.*))( \([\w\p{L} ,-]+\).?$)/u', '$1', $change, 1, $count);
+		$change = preg_replace('/(^(.*))( \([\w\p{L} ,-]+\).?$)/u', '$1', $change, 1, $count);
 
         return $change;
     }
