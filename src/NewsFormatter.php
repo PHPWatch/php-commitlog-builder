@@ -54,7 +54,7 @@ class NewsFormatter {
     }
 
     private function removeAuthorInBraces(string $change): string {
-        $change = preg_replace('/^(.*) \([\w ,]+\)$/', '$1', $change, 1, $count);
+        $change = preg_replace('/^(.*) \([\w ,-]+\)$/', '$1', $change, 1, $count);
         if ($count !== 1) {
             throw new \RuntimeException('Failed to remove author braces in: '. $change);
         }

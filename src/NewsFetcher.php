@@ -140,7 +140,7 @@ class NewsFetcher {
         if (str_starts_with($line, '<<< NOTE: Insert NEWS')) {
             return true;
         }
-        
+
         return false;
     }
 
