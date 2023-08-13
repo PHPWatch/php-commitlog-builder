@@ -7,7 +7,7 @@ class NewsFetcher {
     private const RAW_CONTENT_URL = 'https://raw.githubusercontent.com/php/php-src/%tag/NEWS';
 
     private const REGEX_PIPE_HEADER = '/^\|+$/';
-    private const REGEX_RELEASE_HEADER = '/^(?<date>(?<day>\d\d|\?\?) (?<month>Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec|\?\?\?) (?<year>\?\?\?\?|20\d\d)), PHP (?<release_id>\d\.\d\.\d\d?)$/';
+    private const REGEX_RELEASE_HEADER = '/^(?<date>(?<day>\d\d|\?\?) (?<month>Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec|\?\?\?) (?<year>\?\?\?\?|20\d\d)), PHP (?<release_id>\d\.\d\.(?:\d\d?|0(?:alpha\d|beta\d|rc\d|RC\d)?))$/';
     private const REGEX_EXT_HEADER = '/^- (?<ext_name>[A-Za-z][A-Za-z _\/\d]+):?$/';
 
     private const REGEX_CHANGE_RECORD_START = '/^  \. (?<change_record>.*)$/';
@@ -21,16 +21,27 @@ class NewsFetcher {
         $this->curlFetcher = new CurlFetcher();
     }
 
-    public function fetchAllForVersion(int $version): array {
-        preg_match('/^(?<major>^\d)0(?<minor>\d)\d\d?$/', (string) $version, $matches);
+    public function fetchAllForVersion(int|string $version): array {
 
-        if (empty($matches)) {
-            throw new \InvalidArgumentException('Invalid $version: Must be in integer "XYYZZ" format');
+        if (is_string($version)) {
+            if ($version !== 'master') {
+                throw new \InvalidArgumentException('String arguments must be "master"');
+            }
+            $baseUrl =  strtr(static::RAW_CONTENT_URL, [
+                '%tag' => 'master',
+            ]);
         }
+        else {
+            preg_match('/^(?<major>^\d)0(?<minor>\d)\d\d?$/', (string) $version, $matches);
 
-        $baseUrl = strtr(static::RAW_CONTENT_URL, [
-            '%tag' => "PHP-{$matches['major']}.{$matches['minor']}",
-        ]);
+            if (empty($matches)) {
+                throw new \InvalidArgumentException('Invalid $version: Must be in integer "XYYZZ" format');
+            }
+
+            $baseUrl = strtr(static::RAW_CONTENT_URL, [
+                '%tag' => "PHP-{$matches['major']}.{$matches['minor']}",
+            ]);
+        }
 
         $headers = [];
         if ($this->apiKey) {
@@ -71,7 +82,6 @@ class NewsFetcher {
                 $cursorVersion = $release['version'];
                 $cursorExt = null;
                 $lastLine = null;
-
 
                 continue;
             }
@@ -127,6 +137,10 @@ class NewsFetcher {
             return true;
         }
 
+        if (str_starts_with($line, '<<< NOTE: Insert NEWS')) {
+            return true;
+        }
+        
         return false;
     }
 
