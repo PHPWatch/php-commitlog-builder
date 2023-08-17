@@ -19,17 +19,7 @@ class DownloadLinkFetcher {
             }
         }
 
-        $sourceLinks = $this->getSourceLinks($tag);
-        $return['zip'] = ['url' => $sourceLinks['zip']];
-        $return['tar'] = ['url' => $sourceLinks['tar']];
-
         return $return;
-    }
-    private function getSourceLinks(string $tag): array {
-        return [
-            'zip' => 'https://api.github.com/repos/php/php-src/zipball/refs/tags/' . $tag,
-            'tar' => 'https://api.github.com/repos/php/php-src/tarball/refs/tags/' . $tag,
-        ];
     }
 
     private function getWindowsLinks(string $tag): array {
