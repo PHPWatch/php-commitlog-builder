@@ -8,7 +8,7 @@ class CommitFormatter {
     private array $commitsList = [];
     private array $commitsGroupedByAuthor = [];
 
-    private array $nameReplacements;
+    private array $nameReplacements = [];
 
     public function __construct(array $inputCommits, array $nameReplacements = []) {
         $this->process($inputCommits);
