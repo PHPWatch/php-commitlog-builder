@@ -79,4 +79,8 @@ class CommitFetcher {
 
         return $return;
     }
+
+    public function getCommitByTag(string $tagName): \stdClass {
+        https://api.github.com/repos/OWNER/REPO/git/tags/TAG_SHA
+    }
 }
