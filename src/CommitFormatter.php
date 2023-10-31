@@ -11,8 +11,8 @@ class CommitFormatter {
     private array $nameReplacements = [];
 
     public function __construct(array $inputCommits, array $nameReplacements = []) {
-        $this->process($inputCommits);
         $this->nameReplacements = $nameReplacements;
+        $this->process($inputCommits);
     }
 
     private function process(array $inputCommits): void {
@@ -41,7 +41,10 @@ class CommitFormatter {
         }
 
         $this->commitsList = $formattedCommits;
+        $this->groupByAuthorNames($this->commitsList, $this->nameReplacements);
+    }
 
+    private function groupByAuthorNames(): void {
         foreach ($this->nameReplacements as $originalName => $newName) {
             if (isset($this->commitsGroupedByAuthor[$originalName])) {
                 $this->commitsGroupedByAuthor[$newName] = $this->commitsGroupedByAuthor[$originalName];
