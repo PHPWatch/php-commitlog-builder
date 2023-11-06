@@ -22,6 +22,19 @@ class DownloadLinkFetcher {
         return $return;
     }
 
+	private static function determineVCVersion(string $tag): string {
+		if (preg_match('/^php-7\.2\./', $tag)) {
+			return 'VC15';
+		}
+		if (preg_match('/^php-7\.3\./', $tag)) {
+			return 'VC15';
+		}
+		if (preg_match('/^php-7\.4\./', $tag)) {
+			return 'vc15';
+		}
+		return 'vs16';
+	}
+
     private function getWindowsLinks(string $tag): array {
         $folder = 'releases/archives';
         $folder_alt = 'releases';
@@ -31,22 +44,24 @@ class DownloadLinkFetcher {
             $folder_alt = 'qa';
         }
 
+		$vsVersion = self::determineVCVersion($tag);
+
         return [
             'x64NTS'     => [
-                'https://windows.php.net/downloads/' . $folder . '/' . $tag .     '-nts-Win32-vs16-x64.zip',
-                'https://windows.php.net/downloads/' . $folder_alt . '/' . $tag . '-nts-Win32-vs16-x64.zip',
+                'https://windows.php.net/downloads/' . $folder . '/' . $tag .     '-nts-Win32-'. $vsVersion .'-x64.zip',
+                'https://windows.php.net/downloads/' . $folder_alt . '/' . $tag . '-nts-Win32-'. $vsVersion .'-x64.zip',
             ],
             'x64TS'      => [
-                'https://windows.php.net/downloads/' . $folder . '/' . $tag .     '-Win32-vs16-x64.zip',
-                'https://windows.php.net/downloads/' . $folder_alt . '/' . $tag . '-Win32-vs16-x64.zip',
+                'https://windows.php.net/downloads/' . $folder . '/' . $tag .     '-Win32-' . $vsVersion . '-x64.zip',
+                'https://windows.php.net/downloads/' . $folder_alt . '/' . $tag . '-Win32-' . $vsVersion . '-x64.zip',
             ],
             'x86NTS'     => [
-                'https://windows.php.net/downloads/' . $folder . '/' . $tag .     '-nts-Win32-vs16-x86.zip',
-                'https://windows.php.net/downloads/' . $folder_alt . '/' . $tag . '-nts-Win32-vs16-x86.zip',
+                'https://windows.php.net/downloads/' . $folder . '/' . $tag .     '-nts-Win32-' . $vsVersion . '-x86.zip',
+                'https://windows.php.net/downloads/' . $folder_alt . '/' . $tag . '-nts-Win32-' . $vsVersion . '-x86.zip',
             ],
             'x86TS'      => [
-                'https://windows.php.net/downloads/' . $folder . '/' . $tag .     '-Win32-vs16-x86.zip',
-                'https://windows.php.net/downloads/' . $folder_alt . '/' . $tag . '-Win32-vs16-x86.zip',
+                'https://windows.php.net/downloads/' . $folder . '/' . $tag .     '-Win32-' . $vsVersion . '-x86.zip',
+                'https://windows.php.net/downloads/' . $folder_alt . '/' . $tag . '-Win32-' . $vsVersion . '-x86.zip',
             ],
         ];
     }
