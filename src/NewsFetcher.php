@@ -17,15 +17,16 @@ class NewsFetcher {
     private ?string $apiKey = null;
     private CurlFetcher $curlFetcher;
 
-    private const STATIC_REPLACEMENTS = [
-        '   (Anatol)' => '    (Anatol)',
-        '	(Kalle)' => '    (Kalle)',
-    ];
+    private array $staticReplacements = [];
 
     public function __construct(string $apiKey = null) {
         $this->apiKey = $apiKey;
         $this->curlFetcher = new CurlFetcher();
     }
+
+	public function setReplacements(array $replacements): void {
+		$this->staticReplacements = $replacements;
+	}
 
     public function fetchAllForVersion(int|string $version): array {
         if (is_string($version)) {
@@ -70,8 +71,8 @@ class NewsFetcher {
             $lineNo = (int)$lineNo;
             ++$lineNo; // Line numbers start from 1, although the array index starts at 0
 
-            if (isset(self::STATIC_REPLACEMENTS[$line])) {
-                $line = self::STATIC_REPLACEMENTS[$line];
+            if (isset($this->staticReplacements[$line])) {
+                $line = $this->staticReplacements[$line];
             }
 
             // Should skip line?
