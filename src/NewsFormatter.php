@@ -28,7 +28,7 @@ class NewsFormatter {
 
         $version = $this->releases[$version];
 
-        foreach ($version['changes'] as $ext => &$changes) {
+        foreach ($version['changes'] as &$changes) {
             foreach ($changes as &$change) {
                 $change = $this->removeAuthorInBraces($change);
                 $change = KeywordEnhancer::enhance($change);
@@ -62,7 +62,7 @@ class NewsFormatter {
     }
 
     private function removeAuthorInBraces(string $change): string {
-        $change = preg_replace('/(^(.*))( \([\w\p{L} ,.-]+\).?$)/u', '$1', $change, 1, $count);
+        $change = preg_replace('/(^(.*))( \([\w\p{L} ,.-]+\).?$)/u', '$1', $change, 1);
 
         return $change;
     }

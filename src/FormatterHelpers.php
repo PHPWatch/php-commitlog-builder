@@ -3,7 +3,7 @@
 namespace PHPWatch\PHPCommitBuilder;
 
 trait FormatterHelpers {
-    private const EOL = "\r\n";
+    private const string EOL = "\r\n";
 
     private static function markdownTitle(string $title): string {
         return '### ' . self::plainText($title) . static::EOL;

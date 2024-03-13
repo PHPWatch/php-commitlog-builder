@@ -3,7 +3,7 @@
 namespace PHPWatch\PHPCommitBuilder;
 
 class KeywordEnhancer {
-    protected const CODIFY_PATTERNS = [
+    protected const array CODIFY_PATTERNS = [
         '/\b(?<!`)(?:zend|php)_[a-z_]+\(\)(?!`)/i', // zend_foo_bar()
         '/\b(?<!`)(?:zend|php|_php)_[a-z_*]+\b(?![`.(=])\*?/i', // zend_foo_bar
         '/\b(?<![`\/])[a-z][a-z\d_-]+(.stubs?)?\.(phpt?|c|h)(?![`.?])/', // run-tests.php / foo.stub.php foo.stubs.php / test-foo-bar.phpt,

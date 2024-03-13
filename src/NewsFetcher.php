@@ -4,17 +4,19 @@ namespace PHPWatch\PHPCommitBuilder;
 
 use Ayesh\CurlFetcher\CurlFetcher;
 
+use function sprintf;
+
 class NewsFetcher {
-    private const RAW_CONTENT_URL = 'https://raw.githubusercontent.com/php/php-src/%tag/NEWS';
+    private const string RAW_CONTENT_URL = 'https://raw.githubusercontent.com/php/php-src/%tag/NEWS';
 
-    private const REGEX_PIPE_HEADER = '/^\|+$/';
-    private const REGEX_RELEASE_HEADER = '/^(?<date>(?<day>\d\d?|\?\?) (?<month>Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec|\?\?\?) (?<year>\?\?\?\?|20\d\d)), (PHP|php) (?<release_id>\d\.\d\.(?:\d\d?|0(?:alpha\d|beta\d|rc\d|RC\d)?))$/';
-    private const REGEX_EXT_HEADER = '/^- ?(?<ext_name>[A-Za-z][A-Za-z _\/\d]+):? ?$/';
+    private const string REGEX_PIPE_HEADER = '/^\|+$/';
+    private const string REGEX_RELEASE_HEADER = '/^(?<date>(?<day>\d\d?|\?\?) (?<month>Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec|\?\?\?) (?<year>\?\?\?\?|20\d\d)), (PHP|php) (?<release_id>\d\.\d\.(?:\d\d?|0(?:alpha\d|beta\d|rc\d|RC\d)?))$/';
+    private const string REGEX_EXT_HEADER = '/^- ?(?<ext_name>[A-Za-z][A-Za-z _\/\d]+):? ?$/';
 
-    private const REGEX_CHANGE_RECORD_START = '/^  ? ?(\.|-) (?<change_record>.*)$/';
-    private const REGEX_CHANGE_RECORD_CONTINUATION = '/^(    ?|\t)(?<change_record_cont>.*)$/';
+    private const string REGEX_CHANGE_RECORD_START = '/^  ? ?(\.|-) (?<change_record>.*)$/';
+    private const string REGEX_CHANGE_RECORD_CONTINUATION = '/^(    ?|\t)(?<change_record_cont>.*)$/';
 
-    private ?string $apiKey = null;
+    private ?string $apiKey;
     private CurlFetcher $curlFetcher;
 
     private array $staticReplacements = [];
@@ -120,7 +122,7 @@ class NewsFetcher {
 
             if ($lastLine === null) {
                 throw new \RuntimeException(
-                    \sprintf(
+                    sprintf(
                         "Cursor last line number should not be empty when detecting a continuation of a change record on line %d:\r\n%s",
                         $lineNo,
                         $line
@@ -134,7 +136,7 @@ class NewsFetcher {
                 continue;
             }
 
-            throw new \Exception(\sprintf("Unknown line format at line %d:\r\n%s", $lineNo, $line));
+            throw new \Exception(sprintf("Unknown line format at line %d:\r\n%s", $lineNo, $line));
         }
 
         return $releases;

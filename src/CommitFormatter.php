@@ -2,13 +2,15 @@
 
 namespace PHPWatch\PHPCommitBuilder;
 
+use stdClass;
+
 class CommitFormatter {
 
     use FormatterHelpers;
     private array $commitsList = [];
     private array $commitsGroupedByAuthor = [];
 
-    private array $nameReplacements = [];
+    private array $nameReplacements;
 
     public function __construct(array $inputCommits, array $nameReplacements = []) {
         $this->nameReplacements = $nameReplacements;
@@ -55,7 +57,7 @@ class CommitFormatter {
         ksort($this->commitsGroupedByAuthor, SORT_NATURAL | SORT_FLAG_CASE);
     }
 
-    private function splitCommit(\stdClass $commit): array {
+    private function splitCommit(stdClass $commit): array {
         $commitMessage = $commit->commit->message;
         $commitMessageParts = explode("\n", $commitMessage, 2);
 

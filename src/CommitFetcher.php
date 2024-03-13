@@ -4,9 +4,9 @@ namespace PHPWatch\PHPCommitBuilder;
 
 use Ayesh\CurlFetcher\CurlFetcher;
 class CommitFetcher {
-    private const API_ENDPOINT_COMPARE = 'https://api.github.com/repos/php/php-src/compare/';
-    private const API_ENDPOINT_COMMIT_LIST = 'https://api.github.com/repos/php/php-src/commits';
-    private ?string $apiKey = null;
+    private const string API_ENDPOINT_COMPARE = 'https://api.github.com/repos/php/php-src/compare/';
+    private const string API_ENDPOINT_COMMIT_LIST = 'https://api.github.com/repos/php/php-src/commits';
+    private ?string $apiKey;
     private CurlFetcher $curlFetcher;
 
     public function __construct(string $apiKey = null) {
@@ -78,9 +78,5 @@ class CommitFetcher {
         } while (count($data->commits) >= 250 && $hardLimits > 0);
 
         return $return;
-    }
-
-    public function getCommitByTag(string $tagName): \stdClass {
-        https://api.github.com/repos/OWNER/REPO/git/tags/TAG_SHA
     }
 }

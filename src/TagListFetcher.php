@@ -6,10 +6,10 @@ use Ayesh\CurlFetcher\CurlFetcher;
 use stdClass;
 
 class TagListFetcher {
-    private const API_ENDPOINT_TAG_LIST = 'https://api.github.com/repos/php/php-src/tags';
-    private const API_ENDPOINT_TAG_INDIVIDUAL = 'https://api.github.com/repos/php/php-src/git/commits/%tag';
+    private const string API_ENDPOINT_TAG_LIST = 'https://api.github.com/repos/php/php-src/tags';
+    private const string API_ENDPOINT_TAG_INDIVIDUAL = 'https://api.github.com/repos/php/php-src/git/commits/%tag';
 
-    private const REGEX_TAG_PATTERN = '/^php-\d\.\d\.(?:\d\d?|0(?:alpha\d|beta\d|rc\d|RC\d)?)$/i';
+    private const string REGEX_TAG_PATTERN = '/^php-\d\.\d\.(?:\d\d?|0(?:alpha\d|beta\d|rc\d|RC\d)?)$/i';
     private ?string $apiKey;
     private CurlFetcher $curlFetcher;
 

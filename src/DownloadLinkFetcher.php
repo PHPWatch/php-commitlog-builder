@@ -22,18 +22,18 @@ class DownloadLinkFetcher {
         return $return;
     }
 
-	private static function determineVCVersion(string $tag): string {
-		if (preg_match('/^php-7\.2\./', $tag)) {
-			return 'VC15';
-		}
-		if (preg_match('/^php-7\.3\./', $tag)) {
-			return 'VC15';
-		}
-		if (preg_match('/^php-7\.4\./', $tag)) {
-			return 'vc15';
-		}
-		return 'vs16';
-	}
+    private static function determineVCVersion(string $tag): string {
+        if (preg_match('/^php-7\.2\./', $tag)) {
+            return 'VC15';
+        }
+        if (preg_match('/^php-7\.3\./', $tag)) {
+            return 'VC15';
+        }
+        if (preg_match('/^php-7\.4\./', $tag)) {
+            return 'vc15';
+        }
+        return 'vs16';
+    }
 
     private function getWindowsLinks(string $tag): array {
         $folder = 'releases/archives';
@@ -44,7 +44,7 @@ class DownloadLinkFetcher {
             $folder_alt = 'qa';
         }
 
-		$vsVersion = self::determineVCVersion($tag);
+        $vsVersion = self::determineVCVersion($tag);
 
         return [
             'x64NTS'     => [
@@ -76,20 +76,24 @@ class DownloadLinkFetcher {
 
                 $handlers[$type][$i] = $ch;
 
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                curl_setopt($ch, CURLOPT_HEADER, true);
-                curl_setopt($ch, CURLOPT_PROTOCOLS, CURLPROTO_HTTPS | CURLPROTO_HTTP);
-                curl_setopt($ch, CURLOPT_REDIR_PROTOCOLS, CURLPROTO_HTTPS);
-                curl_setopt($ch, CURLOPT_MAXREDIRS, 5);
-                curl_setopt($ch, CURLOPT_TIMEOUT, 10);
-                curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
-                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
-                curl_setopt($ch, CURLOPT_SSLVERSION, CURL_SSLVERSION_TLSv1_2);
-                curl_setopt($ch, CURLOPT_ENCODING, '');
-                curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-                curl_setopt($ch, CURLOPT_TCP_KEEPALIVE, 1);
-                curl_setopt($ch, CURLOPT_NOBODY, true);
-                curl_setopt($ch, CURLOPT_USERAGENT, 'ayesh/curl-fetcher');
+                curl_setopt_array($ch, [
+                    CURLOPT_RETURNTRANSFER => true,
+                    CURLOPT_PROTOCOLS, CURLPROTO_HTTPS  => CURLPROTO_HTTP,
+                    CURLOPT_REDIR_PROTOCOLS => CURLPROTO_HTTPS,
+                    CURLOPT_MAXREDIRS => 5,
+                    CURLOPT_TIMEOUT => 10,
+                    CURLOPT_SSL_VERIFYHOST => 2,
+                    CURLOPT_SSL_VERIFYPEER => true,
+                    CURLOPT_SSL_OPTIONS => CURLSSLOPT_NATIVE_CA,
+                    CURLOPT_SSLVERSION => CURL_SSLVERSION_TLSv1_2,
+                    CURLOPT_ENCODING => '',
+                    CURLOPT_FOLLOWLOCATION => true,
+                    CURLOPT_TCP_KEEPALIVE => 1,
+                    CURLOPT_USERAGENT => 'ayesh/curl-fetcher',
+
+                    CURLOPT_NOBODY => true,
+                    CURLOPT_HEADER => true,
+                ]);
 
                 curl_multi_add_handle($cm, $ch);
             }
@@ -102,8 +106,8 @@ class DownloadLinkFetcher {
 
         $completedUrls = [];
 
-        foreach ($handlers as $type => $urls) {
-            foreach ($urls as $i => $url) {
+        foreach ($handlers as $urls) {
+            foreach ($urls as $url) {
                 if (curl_getinfo($url, CURLINFO_HTTP_CODE) === 200) {
                     $completedUrls[curl_getinfo($url, CURLINFO_EFFECTIVE_URL)] = curl_multi_getcontent($url);
                 }
