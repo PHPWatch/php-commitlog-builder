@@ -2,6 +2,7 @@
 
 namespace PHPWatch\PHPCommitBuilder\Tests;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPWatch\PHPCommitBuilder\KeywordEnhancer;
 use PHPUnit\Framework\TestCase;
 
@@ -77,43 +78,28 @@ class KeywordEnhancerTest extends TestCase {
         ];
     }
 
-    /**
-     * @covers \PHPWatch\PHPCommitBuilder\KeywordEnhancer::enhance
-     */
     public function testReturnsVerbatimOnEmptyStrings(): void {
         self::assertSame('', KeywordEnhancer::enhance(''));
         self::assertSame(' ', KeywordEnhancer::enhance(' '));
         self::assertSame('test', KeywordEnhancer::enhance('test'));
     }
 
-    /**
-     * @covers       \PHPWatch\PHPCommitBuilder\KeywordEnhancer::linkToBug
-     * @dataProvider dataLinksToBugsPhp
-     */
+    #[DataProvider('dataLinksToBugsPhp')]
     public function testLinksToBugsPhp(string $input, string $expected): void {
         self::assertSame($expected, KeywordEnhancer::enhance($input));
     }
 
-    /**
-     * @covers       \PHPWatch\PHPCommitBuilder\KeywordEnhancer::linkToGitHub
-     * @dataProvider dataLinkToGitHub
-     */
+    #[DataProvider('dataLinkToGitHub')]
     public function testLinkToGitHub(string $input, string $expected): void {
         self::assertSame($expected, KeywordEnhancer::enhance($input));
     }
 
-    /**
-     * @covers       \PHPWatch\PHPCommitBuilder\KeywordEnhancer::linkToSecurityAnnouncements
-     * @dataProvider dataLinkToSecurityAnnouncements
-     */
+    #[DataProvider('dataLinkToSecurityAnnouncements')]
     public function testLinkToSecurityAnnouncements(string $input, string $expected): void {
         self::assertSame($expected, KeywordEnhancer::enhance($input));
     }
 
-    /**
-     * @covers       \PHPWatch\PHPCommitBuilder\KeywordEnhancer::codifyText
-     * @dataProvider dataCodifyText
-     */
+    #[DataProvider('dataCodifyText')]
     public function testCodifyText(string $input, string $expected): void {
         self::assertSame($expected, KeywordEnhancer::enhance($input));
     }
