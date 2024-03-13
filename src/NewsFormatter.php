@@ -62,7 +62,7 @@ class NewsFormatter {
     }
 
     private function removeAuthorInBraces(string $change): string {
-        $change = preg_replace('/(^(.*))( \([\w\p{L} ,-]+\).?$)/u', '$1', $change, 1, $count);
+        $change = preg_replace('/(^(.*))( \([\w\p{L} ,.-]+\).?$)/u', '$1', $change, 1, $count);
 
         return $change;
     }
