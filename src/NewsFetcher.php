@@ -21,7 +21,7 @@ class NewsFetcher {
 
     private array $staticReplacements = [];
 
-    public function __construct(string $apiKey = null) {
+    public function __construct(?string $apiKey = null) {
         $this->apiKey = $apiKey;
         $this->curlFetcher = new CurlFetcher();
     }

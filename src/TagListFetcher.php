@@ -13,7 +13,7 @@ class TagListFetcher {
     private ?string $apiKey;
     private CurlFetcher $curlFetcher;
 
-    public function __construct(string $apiKey = null) {
+    public function __construct(?string $apiKey = null) {
         $this->apiKey = $apiKey;
         $this->curlFetcher = new CurlFetcher();
     }
