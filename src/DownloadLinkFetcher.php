@@ -32,7 +32,10 @@ class DownloadLinkFetcher {
         if (preg_match('/^php-7\.4\./', $tag)) {
             return 'vc15';
         }
-        return 'vs16';
+        if (preg_match('/^php-8\.[0123]\./', $tag)) {
+            return 'vs16';
+        }
+        return 'vs17';
     }
 
     private function getWindowsLinks(string $tag): array {
