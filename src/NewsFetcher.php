@@ -110,7 +110,7 @@ class NewsFetcher {
             }
 
             if (empty($cursorExt)) {
-                throw new \RuntimeException('Cursor ext name should not be empty when detecting a new change');
+                throw new \RuntimeException(sprintf('Cursor ext name should not be empty when detecting a new change (on line no %d: "%s"', $lineNo, $line));
             }
 
             // is this new change record?
