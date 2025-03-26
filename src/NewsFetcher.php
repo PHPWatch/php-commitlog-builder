@@ -10,7 +10,7 @@ class NewsFetcher {
     private const string RAW_CONTENT_URL = 'https://raw.githubusercontent.com/php/php-src/%tag/NEWS';
 
     private const string REGEX_PIPE_HEADER = '/^\|+$/';
-    private const string REGEX_RELEASE_HEADER = '/^(?<date>(?<day>\d\d?|\?\?) (?<month>Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec|\?\?\?) (?<year>\?\?\?\?|20\d\d)), (PHP|php) (?<release_id>\d\.\d\.(?:\d\d?|0(?:alpha\d|beta\d|rc\d|RC\d)?|[123456789]RC1|[12345]\dRC1))$/';
+    private const string REGEX_RELEASE_HEADER = '/^(?<date>(?<day>\d\d?|\?\?) (?<month>Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec|\?\?\?) (?<year>\?\?\?\?|20\d\d)), (PHP|php) (?<release_id>\d\.\d\.(?:\d\d?|0(?:alpha\d|beta\d|rc\d|RC\d)?))((?<!\.0)RC1)?$/';
     private const string REGEX_EXT_HEADER = '/^- ?(?<ext_name>[A-Za-z][A-Za-z _\/\d]+):? ?$/';
 
     private const string REGEX_CHANGE_RECORD_START = '/^  ? ?(\.|-) (?<change_record>.*)$/';
