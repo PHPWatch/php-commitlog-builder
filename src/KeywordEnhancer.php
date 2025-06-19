@@ -13,7 +13,7 @@ class KeywordEnhancer {
         '/\b(?<![`\\\\])[A-Z][A-Z\\\\a-z]+::[a-z][A-Za-z_\d]+\b(?![`\/(])/', // Class::constants
         '/\b(?<!`-)[a-z]+_[a-z]+(?:_[a-z_]+)?\(\)(?![`\/])/', // Functions with underscores and ()
         '/\b(?<![`>])[a-z_][a-z][a-z\d_]+\(\)(?![`.>\/-])/', // Functions with underscores and ()
-        '/\b(?<!`)(?:ldap|ftp|array|mb|stream|open|hash|xml|proc)_[a-z_]+\d?\b(?![`\/])/', // Functions with underscores and no ()
+        '/\b(?<!`)(?:ldap|ftp|array|mb|stream|open|hash|xml|proc|pcntl)_[a-z_]+\d?\b(?![`\/])/', // Functions with underscores and no ()
         '/\b(?<!`)(xleak|xfail|skipif)\b(?![`\/])/i', // xleak
         '/(?<![`>()-])--[a-z][a-z-]+(?![`])/i', // --flags, --flags-and-more
         '/(?<![`>()-])\bext\/[a-z_\d\/-]+\.phpt\b(?![`])/i', // ext/test/test/test.phpt
