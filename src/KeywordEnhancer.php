@@ -17,6 +17,8 @@ class KeywordEnhancer {
         '/\b(?<!`)(xleak|xfail|skipif)\b(?![`\/])/i', // xleak
         '/(?<![`>()-])--[a-z][a-z-]+(?![`])/i', // --flags, --flags-and-more
         '/(?<![`>()-])\bext\/[a-z_\d\/-]+\.phpt\b(?![`])/i', // ext/test/test/test.phpt
+        '/\b(?<![`>()-])__[A-Z\d_]+(?![`])/i', // __PROPERTY__
+        '/\b(?<![`>()-])(?:(main|ext|Zend|tests|win32|scripts|sapi|pear|docs|build)\/(?:[a-z\/_]+))(?:\.(c|php|phpt|yml|yaml|cpp|m4|txt|w32|h))(?::\d+)?(?![`])/i', // files in php-src
     ];
 
     public static function enhance(string $inputText): string {
@@ -73,9 +75,9 @@ class KeywordEnhancer {
     }
 
     private static function linkToSecurityAnnouncements(string $inputText): string {
-        if (preg_match('/(CVE-20\d\d-\d{1,5})\D/', $inputText)) {
+        if (preg_match('/(CVE-20\d\d-\d{1,5})\D/i', $inputText)) {
             $inputText = preg_replace(
-                '/(CVE-20\d\d-\d{1,5})(\D)/',
+                '/(CVE-20\d\d-\d{1,5})(\D)/i',
                 "[$1](https://nvd.nist.gov/vuln/detail/$1)$2",
                 $inputText
             );
