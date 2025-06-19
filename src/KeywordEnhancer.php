@@ -17,7 +17,7 @@ class KeywordEnhancer {
         '/\b(?<!`)(xleak|xfail|skipif)\b(?![`\/])/i', // xleak
         '/(?<![`>()-])--[a-z][a-z-]+(?![`])/i', // --flags, --flags-and-more
         '/(?<![`>()-])\bext\/[a-z_\d\/-]+\.phpt\b(?![`])/i', // ext/test/test/test.phpt
-        '/\b(?<![`>()-])__[A-Z\d_]+(?![`])/i', // __PROPERTY__
+        '/\b(?<![`>-])__[A-Z\d_]+(?![`])/i', // __PROPERTY__
         '/\b(?<![`>()-])(?:(main|ext|Zend|tests|win32|scripts|sapi|pear|docs|build)\/(?:[a-z\/_]+))(?:\.(c|php|phpt|yml|yaml|cpp|m4|txt|w32|h))(?::\d+)?(?![`])/i', // files in php-src
     ];
 
