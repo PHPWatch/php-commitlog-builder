@@ -10,7 +10,7 @@ class KeywordEnhancer {
         '/\b(?<!`)ext\/[a-z_]+\b(?![`\/])/', // ext-names
         '/\b(?<!`)[A-Z][A-Za-z]+::[a-z][A-Za-z\d_]+\(\)(?![`\/-])/', // Class::methods()
         '/\b(?<!`)[A-Z][A-Za-z]+::[A-Z_]+\b(?![`\/(])/', // Class::CONSTANTS
-        '/\b(?<!`)[A-Z][A-Za-z]+::[a-z][A-Za-z_\d]+\b(?![`\/(])/', // Class::constants
+        '/\b(?<![`\\\\])[A-Z][A-Z\\\\a-z]+::[a-z][A-Za-z_\d]+\b(?![`\/(])/', // Class::constants
         '/\b(?<!`-)[a-z]+_[a-z]+(?:_[a-z_]+)?\(\)(?![`\/])/', // Functions with underscores and ()
         '/\b(?<![`>])[a-z_][a-z][a-z\d_]+\(\)(?![`.>\/-])/', // Functions with underscores and ()
         '/\b(?<!`)(?:ldap|ftp|array|mb|stream|open|hash|xml|proc)_[a-z_]+\d?\b(?![`\/])/', // Functions with underscores and no ()
