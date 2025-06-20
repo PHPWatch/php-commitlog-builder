@@ -8,7 +8,7 @@ class KeywordEnhancer {
         '/\b(?<!`)(?:zend|php|_php)_[a-z_*]+\b(?![`.(=])\*?/i', // zend_foo_bar
         '/\b(?<![`\/])[a-z][a-z\d_-]+(.stubs?)?\.(phpt?|c|h)(?![`.?])/', // run-tests.php / foo.stub.php foo.stubs.php / test-foo-bar.phpt,
         '/\b(?<!`)ext\/[a-z_]+\b(?![`\/])/', // ext-names
-        '/\b(?<!`)[A-Z][A-Za-z]+::(?:__)?[a-z][A-Za-z\d_]+\(\)(?![`\/-])/', // Class::methods()
+        '/\b(?<!`)[A-Za-z][A-Za-z]+::(?:__)?[a-z][A-Za-z\d_]+\(\)(?![`\/-])/', // Class::methods()
         '/\b(?<!`)[A-Z][A-Za-z]+::(?:__)[a-z][A-Za-z\d_]+(?![`\/-])\b(?![)(])/', // Class::__magicMethods
         '/\b(?<!`)[A-Z][A-Za-z]+::[A-Z_]+\b(?![`\/(])/', // Class::CONSTANTS
         '/\b(?<![`\\\\])[A-Z][A-Z\\\\a-z]+::[a-z][A-Za-z_\d]+\b(?![`\/(])/', // Class::constants
@@ -21,6 +21,7 @@ class KeywordEnhancer {
         '/\b(?<![`>:-])__[A-Z\d_]+(?![`])/i', // __PROPERTY__
         '/(?<=\s)(?<![`>-])\\\\[A-Z][a-z]+\\\\[A-Z][A-Za-z]+(?![`])\b/', // Stricter, class name like \Dom\HTMLDocument
         '/\b(?<![`>()-])(?:(main|ext|Zend|tests|win32|scripts|sapi|pear|docs|build)\/(?:[a-z\/_]+))(?:\.(c|php|phpt|yml|yaml|cpp|m4|txt|w32|h))(?::\d+)?(?![`])/i', // files in php-src
+        '/\b(?<!`)(?:(SOAP|SO|TCP|SOCK|FILTER|XML|FTP|CURL|GREP))_[A-Z_]+\b(?![`\/(])/', // CONSTANTS (with fixed prefixes)
     ];
 
     public static function enhance(string $inputText): string {
