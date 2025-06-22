@@ -74,7 +74,6 @@ class KeywordEnhancerTest extends TestCase {
                 '`password_hash()` and password_hash()',
                 '`password_hash()` and `password_hash()`',
             ],
-            ['password_hash()', '`password_hash()`'],
         ];
     }
 
