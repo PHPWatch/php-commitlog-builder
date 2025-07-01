@@ -2,7 +2,7 @@
     "name": "phpwatch/php-commitlog-builder",
     "type": "library",
     "require": {
-        "php": "^8.3",
+        "php": "^8.4",
         "ayesh/curl-fetcher": "^2.0.0",
         "ext-curl": "*"
     },
