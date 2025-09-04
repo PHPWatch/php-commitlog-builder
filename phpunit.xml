@@ -10,10 +10,4 @@
       <directory>src</directory>
     </include>
   </source>
-  <coverage includeUncoveredFiles="true" pathCoverage="false" ignoreDeprecatedCodeUnits="true" disableCodeCoverageIgnore="true">
-    <report>
-      <html outputDirectory="build/coverage-html"/>
-      <text outputFile="php://stdout" showUncoveredFiles="false"/>
-    </report>
-  </coverage>
 </phpunit>
