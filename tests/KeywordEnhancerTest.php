@@ -172,6 +172,22 @@ class KeywordEnhancerTest extends TestCase {
                 'Deprecate SplFixedArray::__wakeup()',
                 'Deprecate `SplFixedArray::__wakeup()`',
             ],
+            [
+                'Fix tests/output/bug74815.phpt generating errors.log',
+                'Fix `tests/output/bug74815.phpt` generating errors.log',
+            ],
+            [
+                'Fix ext/soap/tests/bug69137.phpt',
+                'Fix `ext/soap/tests/bug69137.phpt`',
+            ],
+            [
+                'Use curl_mime_*() functions if available',
+                'Use `curl_mime_*()` functions if available',
+            ],
+            [
+                'Use curl_mime_*() functions if available',
+                'Use `curl_mime_*()` functions if available',
+            ],
         ];
     }
 
