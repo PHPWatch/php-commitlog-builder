@@ -168,6 +168,10 @@ class KeywordEnhancerTest extends TestCase {
                 'Add an enum for HASH_KEY_IS constants',
                 'Add an enum for `HASH_KEY_IS` constants',
             ],
+            [
+                'Deprecate SplFixedArray::__wakeup()',
+                'Deprecate `SplFixedArray::__wakeup()`',
+            ],
         ];
     }
 
