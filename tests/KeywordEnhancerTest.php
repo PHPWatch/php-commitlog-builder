@@ -68,11 +68,105 @@ class KeywordEnhancerTest extends TestCase {
 
     public static function dataCodifyText(): array {
         return [
-            ['password_hash()', '`password_hash()`'],
-            ['`password_hash()`', '`password_hash()`'],
+            [
+                'password_hash()',
+                '`password_hash()`'
+            ],
+            [
+                '`password_hash()`',
+                '`password_hash()`'
+            ],
             [
                 '`password_hash()` and password_hash()',
                 '`password_hash()` and `password_hash()`',
+            ],
+            [
+                'Non-canonical cast names (boolean), (integer), (double), and (binary) have been deprecated.',
+                'Non-canonical cast names (boolean), (integer), (double), and (binary) have been deprecated.',
+            ],
+            [
+                'The $exclude_disabled parameter of the get_defined_functions() function has been deprecated, as it no longer has any effect since PHP 8.0.',
+                'The `$exclude_disabled` parameter of the `get_defined_functions()` function has been deprecated, as it no longer has any effect since PHP 8.0.',
+            ],
+            [
+                'The backtick operator as an alias for shell_exec() has been deprecated.',
+                'The backtick operator as an alias for `shell_exec()` has been deprecated.',
+            ],
+            [
+                'Returning null from __debugInfo() has been deprecated.',
+                'Returning null from `__debugInfo()` has been deprecated.',
+            ],
+            [
+                'Returning null from `__debugInfo()` has been deprecated.',
+                'Returning null from `__debugInfo()` has been deprecated.',
+            ],
+            [
+                'Returning null from __debugInfo has been deprecated.',
+                'Returning null from `__debugInfo` has been deprecated.',
+            ],
+            [
+                'Support #[\Override] on properties.',
+                'Support `#[\Override]` on properties.',
+            ],
+            [
+                'Support #[Override] on properties.',
+                'Support `#[Override]` on properties.',
+            ],
+            [
+                'Support `#[Override]` on properties.',
+                'Support `#[Override]` on properties.',
+            ],
+            [
+                'Support https://example.com#test on properties.',
+                'Support https://example.com#test on properties.',
+            ],
+            [
+                'The curl_close() function has been deprecated.',
+                'The `curl_close()` function has been deprecated.',
+            ],
+            [
+                'The curl_share_close() function has been deprecated.',
+                'The `curl_share_close()` function has been deprecated.',
+            ],
+            [
+                'The DATE_RFC7231 and DateTimeInterface::RFC7231 constants have been deprecated.',
+                'The `DATE_RFC7231` and `DateTimeInterface::RFC7231` constants have been deprecated.',
+            ],
+            [
+                'The $context parameter of the finfo_buffer() function has been deprecated as it is ignored.',
+                'The `$context` parameter of the `finfo_buffer()` function has been deprecated as it is ignored.',
+            ],
+            [
+                'The $key_length parameter for openssl_pkey_derive() has been deprecated.',
+                'The `$key_length` parameter for `openssl_pkey_derive()` has been deprecated.',
+            ],
+            [
+                'ext/standard/tests/file/bug81145.phpt: unlink file before exit',
+                '`ext/standard/tests/file/bug81145.phpt`: unlink file before exit',
+            ],
+            [
+                'ext/standard: unlink file before exit',
+                '`ext/standard`: unlink file before exit',
+            ],
+            [
+                'Setting TEST_PHP_EXECUTABLE hasn\'t been necessary for ages',
+                'Setting `TEST_PHP_EXECUTABLE` hasn\'t been necessary for ages',
+            ],
+            [
+                'Add an enum for HASH_KEY_IS_* constants',
+                'Add an enum for `HASH_KEY_IS_*` constants',
+            ],
+            [
+                'Add an enum for HASH_KEY_IS_*f constants',
+                'Add an enum for HASH_KEY_IS_*f constants',
+            ],
+            [
+                'Add an enum for HASH_KEY_IS_ constants',
+                'Add an enum for `HASH_KEY_IS_` constants',
+            ],
+            [
+                'Add an enum for HASH_KEY_IS constants',
+                'Add an enum for `HASH_KEY_IS` constants',
             ],
         ];
     }

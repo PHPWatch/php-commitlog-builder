@@ -6,22 +6,26 @@ class KeywordEnhancer {
     protected const array CODIFY_PATTERNS = [
         '/\b(?<!`)(?:zend|php)_[a-z_]+\(\)(?!`)/i', // zend_foo_bar()
         '/\b(?<!`)(?:zend|php|_php)_[a-z_*]+\b(?![`.(=])\*?/i', // zend_foo_bar
+        '/(?<![`>()-])\bext\/[a-z_\d\/-]+\.phpt\b(?![`])/i', // ext/test/test/test.phpt
         '/\b(?<![`\/])[a-z][a-z\d_-]+(.stubs?)?\.(phpt?|c|h)(?![`.?])/', // run-tests.php / foo.stub.php foo.stubs.php / test-foo-bar.phpt,
         '/\b(?<!`)ext\/[a-z_]+\b(?![`\/])/', // ext-names
+        '/\b(?<!`)__[a-z][a-zA-Z\d_]+\(\)(?![`ws])/', // __debugInfo()
         '/\b(?<!`)[A-Za-z][A-Za-z\d]+::(?:__)?[a-z][A-Za-z\d_]+\(\)(?![`\/-])/', // Class::methods()
         '/\b(?<!`)[A-Z][A-Za-z]+::(?:__)[a-z][A-Za-z\d_]+(?![`\/-])\b(?![)(])/', // Class::__magicMethods
-        '/\b(?<!`)[A-Z][A-Za-z]+::[A-Z_]+\b(?![`\/(])/', // Class::CONSTANTS
+        '/\b(?<!`)[A-Z][A-Za-z]+::[A-Z][A-Z_\d]+\b(?![`\/(])/', // Class::CONSTANTS
         '/\b(?<![`\\\\])[A-Z][A-Z\\\\a-z]+::[a-z][A-Za-z_\d]+\b(?![`\/(])/', // Class::constants
         '/\b(?<!`-)[a-z]+_[a-z]+(?:_[a-z_]+)?\(\)(?![`\/])/', // Functions with underscores and ()
         '/\b(?<![`>])[a-z_][a-z][a-z\d_]+\(\)(?![`.>\/-])/', // Functions with underscores and ()
         '/\b(?<!`)(?:ldap|ftp|array|mb|stream|open|hash|xml|proc|pcntl|curl|intl|date|grapheme|socket|stream)_[a-z_]+\d?\b(?![`\/])/', // Functions with underscores and no ()
         '/\b(?<!`)(xleak|xfail|skipif)\b(?![`\/])/i', // xleak
         '/(?<![`>()-])--[a-z][a-z-]+(?![`])/i', // --flags, --flags-and-more
-        '/(?<![`>()-])\bext\/[a-z_\d\/-]+\.phpt\b(?![`])/i', // ext/test/test/test.phpt
         '/\b(?<![`>:-])__[A-Z\d_]+(?![`])/i', // __PROPERTY__
         '/(?<=\s)(?<![`>-])\\\\[A-Z][a-z]+\\\\[A-Z][A-Za-z]+(?![`])\b/', // Stricter, class name like \Dom\HTMLDocument
-        '/\b(?<![`>()-])(?:(main|ext|Zend|tests|win32|scripts|sapi|pear|docs|build)\/(?:[a-z\d\/_]+))(?:\.(c|php|phpt|yml|yaml|cpp|m4|txt|w32|h))(?::\d+)?(?![`])/i', // files in php-src
-        '/\b(?<!`)(?:(SOAP|SO|TCP|SOCK|FILTER|XML|FTP|CURL|CURLOPT|CURLE|CURLINFO|GREP|X509|ZEND|USE_ZEND))_[A-Z_]+\b(?![`\/(])/', // CONSTANTS (with fixed prefixes)
+        '/\b(?<![`>()-])(?:(main|ext|Zend|tests|win32|scripts|sapi|pear|docs|build)\/(?:[a-z\d\/_]+))(?:\.(c|php|phpt|yml|yaml|cpp|m4|txt|w32|h))(?::\d+)?(?![`\w])/i', // files in php-src
+        '/\b(?<!`)(?:(DATE|SOAP|SO|TCP|SOCK|FILTER|XML|FTP|CURL|CURLOPT|CURLE|CURLINFO|GREP|X509|ZEND|USE_ZEND|TEST|HASH))_[A-Z_\d]+\b(?![`\/(*_\S])/', // CONSTANTS (with fixed prefixes)
+        '/\b(?<![`\w])(HASH|DATE|MHASH)_[A-Z_]+_\*(?![`\/(\w\S])/', // Const names with * at the end
+        '/(?<![`\w])#\[\\\\?[A-Z][A-Za-z\d_]+](?![`\w\/])/', // Attributes
+        '/\B(?<![`\S\w])\$[a-z_\d]+(?![`\w\S])/', // Variable names, lowercase
     ];
 
     public static function enhance(string $inputText): string {
