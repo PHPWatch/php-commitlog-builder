@@ -204,6 +204,10 @@ class KeywordEnhancerTest extends TestCase {
                 'Fix Uri\WhatWg\Url::withHost.',
                 'Fix `Uri\WhatWg\Url::withHost`.',
             ],
+            [
+                '(Dom\XMLDocument::createComment() triggers undefined behavior with null byte).',
+                '(`Dom\XMLDocument::createComment()` triggers undefined behavior with null byte).',
+            ],
         ];
     }
 
