@@ -188,6 +188,22 @@ class KeywordEnhancerTest extends TestCase {
                 'Use curl_mime_*() functions if available',
                 'Use `curl_mime_*()` functions if available',
             ],
+            [
+                'Fix Uri\WhatWg\Url::withHost()',
+                'Fix `Uri\WhatWg\Url::withHost()`',
+            ],
+            [
+                'Fix Uri\WhatWg\Url::withHost().',
+                'Fix `Uri\WhatWg\Url::withHost()`.',
+            ],
+            [
+                'Fix Uri\WhatWg\Url::withHost',
+                'Fix `Uri\WhatWg\Url::withHost`',
+            ],
+            [
+                'Fix Uri\WhatWg\Url::withHost.',
+                'Fix `Uri\WhatWg\Url::withHost`.',
+            ],
         ];
     }
 

@@ -10,7 +10,7 @@ class KeywordEnhancer {
         '/\b(?<![`\/])[a-z][a-z\d_-]+(.stubs?)?\.(phpt?|c|h)(?![`.?])/', // run-tests.php / foo.stub.php foo.stubs.php / test-foo-bar.phpt,
         '/\b(?<!`)ext\/[a-z_]+\b(?![`\/])/', // ext-names
         '/\b(?<![`:])__[a-z][a-zA-Z\d_]+\(\)(?![`ws])/', // __debugInfo()
-        '/\b(?<!`)[A-Za-z][A-Za-z\d]+::(?:__)?[a-z][A-Za-z\d_]+\(\)(?![`\/-])/', // Class::methods()
+        '/\b(?<!`)[A-Za-z][A-Z\\\\a-z\d]+::(?:__)?[a-z][A-Za-z\d_]+\(\)(?![`\/-])/', // Class::methods()
         '/\b(?<!`)[A-Z][A-Za-z]+::(?:__)[a-z][A-Za-z\d_]+(?![`\/-])\b(?![)(])/', // Class::__magicMethods
         '/\b(?<!`)[A-Z][A-Za-z]+::[A-Z][A-Z_\d]+\b(?![`\/(])/', // Class::CONSTANTS
         '/\b(?<![`\\\\])[A-Z][A-Z\\\\a-z]+::[a-z][A-Za-z_\d]+\b(?![`\/(])/', // Class::constants
