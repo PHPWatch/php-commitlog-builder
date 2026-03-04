@@ -21,7 +21,7 @@ class DownloadLinkFetcher {
 					$file = basename($link);
                     $return[$type] = [
                         'url' => $link,
-                        'size' => $urlStatus[$link],
+                        'size' => $urlStatus[$link] === 0 ? null : $urlStatus[$link],
 						'sha256' => isset($this->hashes[$file]) ? $this->hashes[$file]['sha256'] : null,
                     ];
                 }
@@ -75,7 +75,7 @@ class DownloadLinkFetcher {
 	}
 
 	private function ingestHashList(string $url, &$hashes): void {
-		$releasesJson = file_get_contents(self::RELEASES_JSON);
+		$releasesJson = file_get_contents($url);
 		$releases = json_decode($releasesJson, associative: true, depth: 10, flags: JSON_THROW_ON_ERROR);
 
 		foreach ($releases as $version_ => $files) {
@@ -171,7 +171,8 @@ class DownloadLinkFetcher {
 
         foreach ($handlers as $urls) {
             foreach ($urls as $url) {
-                if (curl_getinfo($url, CURLINFO_HTTP_CODE) === 206) {
+                $httpStatus = curl_getinfo($url, CURLINFO_HTTP_CODE);
+                if ($httpStatus === 200 || $httpStatus === 206) {
                     $completedUrls[curl_getinfo($url, CURLINFO_EFFECTIVE_URL)] = curl_multi_getcontent($url);
                 }
                 curl_multi_remove_handle($cm, $url);
@@ -184,10 +185,10 @@ class DownloadLinkFetcher {
             preg_match('/content-range: bytes \d+-\d+\/(?<size>\d+)\b/i', $headers, $matches);
             if (!empty($matches['size'])) {
                 $headers = $matches['size'];
+                continue;
             }
-            else {
-                throw new \LogicException('Content-range not matched');
-            }
+
+            $headers = 0;
         }
 
         return $completedUrls;
